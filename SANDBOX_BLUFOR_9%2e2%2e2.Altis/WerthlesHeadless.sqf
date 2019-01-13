@@ -216,6 +216,32 @@ if (isMultiplayer) then
 				[2,[]] call WHKDebugHint;
 			};
 		},nil,-666,false,true,"",WHKCondition];
+		
+		_action = ["debugWHK", "<t color='#C67171'>Toggle WHK Debug", "", { 
+			if (WHKDEBUGGER == player) then 
+			{ 
+				WHKDEBUGHC = !WHKDEBUGHC; 
+				publicVariable "WHKDEBUGHC"; 
+			} 
+			else 
+			{ 
+				WHKDEBUGGER = player; 
+				publicVariable "WHKDEBUGGER"; 
+				WHKDEBUGHC = true; 
+				publicVariable "WHKDEBUGHC"; 
+			}; 
+			if (WHKDEBUGHC) then 
+			{ 
+				[1,[]] call WHKDebugHint; 
+			} 
+			else 
+			{ 
+				[2,[]] call WHKDebugHint; 
+			}; 
+		}, {true}] call ace_interact_menu_fnc_createAction;  
+         
+        [["ACE_ZeusActions"], _action] call ace_interact_menu_fnc_addActionToZeus;
+		
 		_arb = player addEventHandler ["respawn",
 		{
 			(_this select 1) removeAction WHKAction;
@@ -256,7 +282,7 @@ if (isMultiplayer) then
 				};
 			},nil,-666,false,true,"",WHKCondition];
 		}];
-		
+
 		//draw icons if debug is activated for a player
 		_debugging = [_debug] spawn {
 			_check = true;
